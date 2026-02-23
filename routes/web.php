@@ -146,3 +146,10 @@ Route::resource('settings/project-settings', App\Http\Controllers\ProjectSetting
     'update' => 'settings.project-settings.update',
     'destroy' => 'settings.project-settings.destroy',
 ]);
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/tickets', [App\Http\Controllers\TicketController::class, 'index'])->name('tickets.index');
+    Route::post('/tickets', [App\Http\Controllers\TicketController::class, 'store'])->name('tickets.store');
+    Route::put('/tickets/{ticket}', [App\Http\Controllers\TicketController::class, 'update'])->name('tickets.update');
+    Route::delete('/tickets/{ticket}', [App\Http\Controllers\TicketController::class, 'destroy'])->name('tickets.destroy');
+});

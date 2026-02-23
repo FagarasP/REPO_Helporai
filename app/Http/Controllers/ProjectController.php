@@ -4,12 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\ProjectApplication;
+use App\Models\Company;
 use App\Models\ProjectSetting;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
 {
+    private function isOtherContext(Request $request): bool
+    {
+        return str_starts_with($request->route()->getName() ?? '', 'other.');
+    }
+
+    private function projectIndexComponent(Request $request): string
+    {
+        return $this->isOtherContext($request) ? 'Other/Projects/Index' : 'Company/Projects/Index';
+    }
+
+    private function projectCreateComponent(Request $request): string
+    {
+        return $this->isOtherContext($request) ? 'Other/Projects/Create' : 'Company/Projects/Create';
+    }
+
+    private function projectEditComponent(Request $request): string
+    {
+        return $this->isOtherContext($request) ? 'Other/Projects/Edit' : 'Company/Projects/Edit';
+    }
+
     public function index()
     {
         // Ensure user is authenticated
@@ -17,11 +38,15 @@ class ProjectController extends Controller
             abort(401);
         }
 
-        $projects = Project::where('company_id', auth()->user()->company_id)
-            ->withCount('applications')
-            ->get();
+        $query = Project::query()->with('company')->withCount('applications');
 
-        return Inertia::render('Company/Projects/Index', [
+        if (auth()->user()->role === 'company') {
+            $query->where('company_id', auth()->user()->company_id);
+        }
+
+        $projects = $query->latest()->get();
+
+        return Inertia::render($this->projectIndexComponent(request()), [
             'projects' => $projects,
         ]);
     }
@@ -33,7 +58,8 @@ class ProjectController extends Controller
             abort(401);
         }
 
-        return Inertia::render('Company/Projects/Create', [
+        return Inertia::render($this->projectCreateComponent(request()), [
+            'companies' => Company::query()->select('id', 'name')->orderBy('name')->get(),
             'project_languages' => ProjectSetting::where('type', 'project_language')->get(),
             'job_types' => ProjectSetting::where('type', 'job_type')->get(),
             'payment_offers' => ProjectSetting::where('type', 'payment_offer')->get(),
@@ -48,6 +74,7 @@ class ProjectController extends Controller
         }
 
         $request->validate([
+            'company_id' => 'nullable|exists:companies,id',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'project_language' => 'required|string',
@@ -59,8 +86,12 @@ class ProjectController extends Controller
             'end_date' => 'nullable|date',
         ]);
 
+        if (auth()->user()->role !== 'company' && ! $request->filled('company_id')) {
+            return back()->withErrors(['company_id' => 'Company is required for admin project creation.']);
+        }
+
         $project = Project::create([
-            'company_id' => auth()->user()->company_id,
+            'company_id' => auth()->user()->role === 'company' ? auth()->user()->company_id : $request->company_id,
             'title' => $request->title,
             'description' => $request->description,
             'project_language' => $request->project_language,
@@ -72,7 +103,11 @@ class ProjectController extends Controller
             'end_date' => $request->end_date,
         ]);
 
-        return redirect()->route('company.teams.create', ['project_id' => $project->id]);
+        if (auth()->user()->role === 'company') {
+            return redirect()->route('company.teams.create', ['project_id' => $project->id]);
+        }
+
+        return redirect()->route('other.projects.index');
     }
 
     public function edit(Project $project)
@@ -82,8 +117,9 @@ class ProjectController extends Controller
             abort(401);
         }
 
-        return Inertia::render('Company/Projects/Edit', [
+        return Inertia::render($this->projectEditComponent(request()), [
             'project' => $project,
+            'companies' => Company::query()->select('id', 'name')->orderBy('name')->get(),
             'project_languages' => ProjectSetting::where('type', 'project_language')->get(),
             'job_types' => ProjectSetting::where('type', 'job_type')->get(),
             'payment_offers' => ProjectSetting::where('type', 'payment_offer')->get(),
@@ -98,6 +134,7 @@ class ProjectController extends Controller
         }
 
         $request->validate([
+            'company_id' => 'nullable|exists:companies,id',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'project_language' => 'required|string',
@@ -109,9 +146,17 @@ class ProjectController extends Controller
             'end_date' => 'nullable|date',
         ]);
 
-        $project->update($request->all());
+        if (auth()->user()->role !== 'company' && ! $request->filled('company_id')) {
+            return back()->withErrors(['company_id' => 'Company is required.']);
+        }
 
-        return redirect()->route('company.projects.index');
+        $payload = $request->all();
+        if (auth()->user()->role === 'company') {
+            $payload['company_id'] = auth()->user()->company_id;
+        }
+        $project->update($payload);
+
+        return redirect()->route($this->isOtherContext($request) ? 'other.projects.index' : 'company.projects.index');
     }
 
     public function destroy(Project $project)
@@ -121,9 +166,13 @@ class ProjectController extends Controller
             abort(401);
         }
 
+        if (auth()->user()->role === 'company' && $project->company_id !== auth()->user()->company_id) {
+            abort(403);
+        }
+
         $project->delete();
 
-        return redirect()->route('company.projects.index');
+        return redirect()->route($this->isOtherContext(request()) ? 'other.projects.index' : 'company.projects.index');
     }
 
     public function jobOffers()
