@@ -1,0 +1,1 @@
+import{_ as e}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{f as s,o as t,b as c}from"./app-_aJidVI4.js";const r={},n={class:"flex items-center space-x-3"};function a(i,o){return t(),s("div",n,o[0]||(o[0]=[c("img",{src:"/images/logo.png",alt:"Logo",class:"w-32 h-8"},null,-1)]))}const p=e(r,[["render",a]]);export{p as A};

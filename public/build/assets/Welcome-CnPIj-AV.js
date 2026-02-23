@@ -1,0 +1,1 @@
+import{f as o,o as a,a as t,b as r,u as s,m,F as n}from"./app-CDgewhk_.js";import{_ as c}from"./_plugin-vue_export-helper-DlAUqK2U.js";const l={__name:"Welcome",setup(_){return(p,e)=>(a(),o(n,null,[t(s(m),{title:"Welcome"}),e[0]||(e[0]=r("div",null,"in work",-1))],64))}},d=c(l,[["__scopeId","data-v-31483e30"]]);export{d as default};
