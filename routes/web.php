@@ -152,4 +152,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/tickets', [App\Http\Controllers\TicketController::class, 'store'])->name('tickets.store');
     Route::put('/tickets/{ticket}', [App\Http\Controllers\TicketController::class, 'update'])->name('tickets.update');
     Route::delete('/tickets/{ticket}', [App\Http\Controllers\TicketController::class, 'destroy'])->name('tickets.destroy');
+
+    Route::get('/communication', [App\Http\Controllers\CommunicationController::class, 'index'])
+        ->name('communication.index');
+    Route::post('/communication/{room}/messages', [App\Http\Controllers\CommunicationController::class, 'storeMessage'])
+        ->name('communication.messages.store');
 });
