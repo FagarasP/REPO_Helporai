@@ -119,6 +119,22 @@ class User extends Authenticatable
         return $this->hasMany(ProjectApplication::class);
     }
 
+
+    public function conversationParticipants()
+    {
+        return $this->hasMany(ConversationParticipant::class);
+    }
+
+    public function sentMessages()
+    {
+        return $this->hasMany(ConversationMessage::class, 'sender_id');
+    }
+
+    public function presence()
+    {
+        return $this->hasOne(UserPresence::class);
+    }
+
     public function chartOfAccounts()
     {
         return $this->hasMany(ChartOfAccount::class);

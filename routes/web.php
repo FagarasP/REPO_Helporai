@@ -15,6 +15,9 @@ Route::post('/change-password', [PasswordChangeController::class, 'update'])->na
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+
+    Route::get('/admin/panel', [App\Http\Controllers\AdminController::class, 'panel'])->name('admin.panel');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -146,3 +149,33 @@ Route::resource('settings/project-settings', App\Http\Controllers\ProjectSetting
     'update' => 'settings.project-settings.update',
     'destroy' => 'settings.project-settings.destroy',
 ]);
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/tickets', [App\Http\Controllers\TicketController::class, 'index'])->name('tickets.index');
+    Route::post('/tickets', [App\Http\Controllers\TicketController::class, 'store'])->name('tickets.store');
+    Route::put('/tickets/{ticket}', [App\Http\Controllers\TicketController::class, 'update'])->name('tickets.update');
+    Route::delete('/tickets/{ticket}', [App\Http\Controllers\TicketController::class, 'destroy'])->name('tickets.destroy');
+
+    Route::get('/communication', [App\Http\Controllers\CommunicationController::class, 'index'])
+        ->name('communication.index');
+    Route::post('/communication/{room}/messages', [App\Http\Controllers\CommunicationController::class, 'storeMessage'])
+        ->name('communication.messages.store');
+
+
+    Route::get('/messages', [App\Http\Controllers\ConversationController::class, 'index'])->name('messages.index');
+    Route::get('/messages/contacts', [App\Http\Controllers\ConversationController::class, 'contacts'])->name('messages.contacts');
+    Route::post('/messages', [App\Http\Controllers\ConversationController::class, 'createConversation'])->name('messages.createConversation');
+    Route::get('/messages/{conversation}', [App\Http\Controllers\ConversationController::class, 'show'])->name('messages.show');
+    Route::post('/messages/{conversation}/send', [App\Http\Controllers\ConversationController::class, 'sendMessage'])->name('messages.sendMessage');
+    Route::get('/messages/{conversation}/list', [App\Http\Controllers\ConversationController::class, 'listMessages'])->name('messages.listMessages');
+    Route::post('/messages/{conversation}/mark-read', [App\Http\Controllers\ConversationController::class, 'markRead'])->name('messages.markRead');
+    Route::post('/messages/{conversation}/typing', [App\Http\Controllers\ConversationController::class, 'typing'])->name('messages.typing');
+
+    Route::post('/calls/{conversation}/offer', [App\Http\Controllers\CallSignalController::class, 'offer'])->name('calls.offer');
+    Route::post('/calls/{conversation}/answer', [App\Http\Controllers\CallSignalController::class, 'answer'])->name('calls.answer');
+    Route::post('/calls/{conversation}/ice', [App\Http\Controllers\CallSignalController::class, 'ice'])->name('calls.ice');
+    Route::post('/calls/{conversation}/hangup', [App\Http\Controllers\CallSignalController::class, 'hangup'])->name('calls.hangup');
+
+    Route::post('/presence/heartbeat', [App\Http\Controllers\PresenceController::class, 'heartbeat'])->name('presence.heartbeat');
+    Route::get('/presence/bulk', [App\Http\Controllers\PresenceController::class, 'bulk'])->name('presence.bulk');
+});

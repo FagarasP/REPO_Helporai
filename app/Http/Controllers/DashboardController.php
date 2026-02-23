@@ -18,7 +18,7 @@ class DashboardController extends Controller
         // Redirect based on user role
         if ($user->isAdmin()) {
             // Redirect admin to OM dashboard
-            return redirect()->route('other.dashboard');
+            return redirect()->route('admin.panel');
         } elseif ($user->role === 'company') {
             return redirect()->route('company.dashboard');
         } elseif ($user->role === 'freelancer') {

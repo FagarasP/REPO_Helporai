@@ -42,7 +42,7 @@ class AuthenticatedSessionController extends Controller
         // Redirect based on user role
         if ($user->isAdmin()) {
             // Redirect admin to OM dashboard
-            return redirect()->intended(route('other.dashboard', absolute: false));
+            return redirect()->intended(route('admin.panel', absolute: false));
         } elseif ($user->role === 'freelancer') {
             return redirect()->intended(route('freelancer.dashboard', absolute: false));
         } elseif ($user->role === 'company') {

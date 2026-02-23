@@ -121,8 +121,25 @@ const getAllMenuItems = () => {
         const menuItems = [
             {
                 name: 'Dashboard',
-                route: 'dashboard',
+                route: 'admin.panel',
                 icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-3m-6 0a1 1 0 001-1v-6a1 1 0 011-1h2'
+            },
+
+
+            {
+                name: 'Messages',
+                route: 'messages.index',
+                icon: 'M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l1.3-3.9A7.4 7.4 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'
+            },
+            {
+                name: 'Tickets',
+                route: 'tickets.index',
+                icon: 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 4v-4z'
+            },
+            {
+                name: 'Communication',
+                route: 'communication.index',
+                icon: 'M17 8h2a2 2 0 012 2v8a2 2 0 01-2 2h-2m-4 0H5a2 2 0 01-2-2V8a2 2 0 012-2h8m4 0V4a2 2 0 10-4 0v2m4 0H9'
             },
             {
                 name: 'Projects',
@@ -191,6 +208,18 @@ const getAllMenuItems = () => {
                 route: 'other.dashboard',
                 icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-3m-6 0a1 1 0 001-1v-6a1 1 0 011-1h2'
             },
+
+
+            {
+                name: 'Messages',
+                route: 'messages.index',
+                icon: 'M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l1.3-3.9A7.4 7.4 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'
+            },
+            {
+                name: 'Tickets',
+                route: 'tickets.index',
+                icon: 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 4v-4z'
+            },
             {
                 name: 'Projects',
                 key: 'projects',
@@ -252,6 +281,18 @@ const getAllMenuItems = () => {
                 route: 'freelancer.dashboard',
                 icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-3m-6 0a1 1 0 001-1v-6a1 1 0 011-1h2'
             },
+
+
+            {
+                name: 'Messages',
+                route: 'messages.index',
+                icon: 'M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l1.3-3.9A7.4 7.4 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'
+            },
+            {
+                name: 'Tickets',
+                route: 'tickets.index',
+                icon: 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 4v-4z'
+            },
             {
                 name: 'Job Offers',
                 key: 'job-offers',
@@ -303,6 +344,24 @@ const getAllMenuItems = () => {
                 name: 'Dashboard',
                 route: 'company.dashboard',
                 icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-3m-6 0a1 1 0 001-1v-6a1 1 0 011-1h2'
+            },
+
+
+            {
+                name: 'Messages',
+                route: 'messages.index',
+                icon: 'M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l1.3-3.9A7.4 7.4 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'
+            },
+            {
+                name: 'Tickets',
+                route: 'tickets.index',
+                icon: 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 4v-4z'
+            },
+
+            {
+                name: 'Communication',
+                route: 'communication.index',
+                icon: 'M17 8h2a2 2 0 012 2v8a2 2 0 01-2 2h-2m-4 0H5a2 2 0 01-2-2V8a2 2 0 012-2h8m4 0V4a2 2 0 10-4 0v2m4 0H9'
             },
             {
                 name: 'Projects',
