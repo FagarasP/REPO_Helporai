@@ -26,7 +26,7 @@ class PasswordChangeController extends Controller
         // Redirect based on user role
         if ($user->isAdmin()) {
             // Redirect admin to OM dashboard
-            $redirectRoute = 'other.dashboard';
+            $redirectRoute = 'admin.panel';
         } elseif ($user->role === 'company') {
             $redirectRoute = 'company.dashboard';
         } elseif ($user->role === 'freelancer') {
