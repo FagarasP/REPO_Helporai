@@ -6,12 +6,11 @@ use App\Models\ChatRoom;
 use App\Models\Project;
 use App\Models\Ticket;
 use App\Models\User;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\Contracts\View\View;
 
 class AdminController extends Controller
 {
-    public function panel(): Response
+    public function panel(): View
     {
         $user = auth()->user();
 
@@ -19,7 +18,7 @@ class AdminController extends Controller
             abort(403);
         }
 
-        return Inertia::render('Admin/Panel', [
+        return view('admin.panel', [
             'stats' => [
                 'users' => User::count(),
                 'projects' => Project::count(),
