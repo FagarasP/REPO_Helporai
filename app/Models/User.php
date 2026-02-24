@@ -140,6 +140,41 @@ class User extends Authenticatable
         return $this->hasMany(ChartOfAccount::class);
     }
 
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+
+    public function canAccessPortal(string $portal): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        return match ($portal) {
+            'admin' => $this->role === 'admin',
+            'company' => $this->role === 'company',
+            'freelancer' => $this->role === 'freelancer',
+            default => false,
+        };
+    }
+
+    public function hasPermission(string $permission): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        if (is_array($this->menu_permissions) && in_array($permission, $this->menu_permissions, true)) {
+            return true;
+        }
+
+        return $this->relationLoaded('permissions')
+            ? $this->permissions->contains('slug', $permission)
+            : $this->permissions()->where('slug', $permission)->exists();
+    }
+
     // Scopes
     public function scopeActive($query)
     {
