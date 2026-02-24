@@ -1,0 +1,42 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "user_management": "User Management",
+      "project_settings": "Project Settings",
+      "commission_management": "Commission Management",
+      "pending_company_payments": "Pending Company Payments",
+      "freelancer_payout_management": "Freelancer Payout Management",
+      "platform_data_management": "Platform Data Management",
+      "ticket_system": "Ticket System",
+      "communication_system": "Communication"
+    }
+  },
+  "company": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "project_management": "Project Management",
+      "team_management": "Team Management",
+      "workforce_management": "Workforce Management",
+      "shift_management": "Shift Management",
+      "communication": "Communication",
+      "finance": "Finance",
+      "ticket_system": "Tickets"
+    }
+  },
+  "freelancer": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "job_offers": "Job Offers",
+      "my_jobs": "My Jobs",
+      "communication": "Communication",
+      "shift_plan": "Shift Plan",
+      "finance": "Finance",
+      "ticket_system": "Tickets"
+    }
+  }
+}

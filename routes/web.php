@@ -176,3 +176,5 @@ Route::resource('settings/project-settings', App\Http\Controllers\ProjectSetting
     'update' => 'settings.project-settings.update',
     'destroy' => 'settings.project-settings.destroy',
 ]);
+
+require __DIR__.'/portals.php';

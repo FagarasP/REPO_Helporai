@@ -54,3 +54,17 @@ php artisan serve
 - Attachment-Upload mit Size-Limit.
 - Call-Events werden als Audit-Logs gespeichert.
 - Presence speichert nur minimalen Status + last seen.
+
+## Modular portals and deployment safety
+
+- Portals are separated by prefixes: `/admin/*`, `/company/*`, `/freelancer/*` and are protected by `portal` middleware.
+- Modules are auto-discovered from `app/Modules/<Portal>/*/module.php`.
+- Enable/disable modules through `config/modules.php`.
+- CI/CD should always publish matching Vite artefacts to avoid manifest mismatches:
+  1. `npm install`
+  2. `npm run build`
+  3. Deploy `public/build/manifest.json` and `public/build/assets/*`
+- Suggested CI checks:
+  - `php artisan test`
+  - `php artisan route:list`
+  - Optional: `php -l` lint pass
