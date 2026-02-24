@@ -6,12 +6,12 @@ use App\Models\ChatRoom;
 use App\Models\Project;
 use App\Models\Ticket;
 use App\Models\User;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Route;
 
 class AdminController extends Controller
 {
-    public function panel(): Response
+    public function panel(): View
     {
         $user = auth()->user();
 
@@ -19,7 +19,7 @@ class AdminController extends Controller
             abort(403);
         }
 
-        return Inertia::render('Admin/Panel', [
+        return view('admin.panel', [
             'stats' => [
                 'users' => User::count(),
                 'projects' => Project::count(),
@@ -27,12 +27,32 @@ class AdminController extends Controller
                 'chatRooms' => class_exists(ChatRoom::class) ? ChatRoom::count() : 0,
             ],
             'quickLinks' => [
-                ['label' => 'User Management', 'route' => 'settings.user-management', 'description' => 'Benutzer erstellen, bearbeiten und löschen'],
-                ['label' => 'Project Settings', 'route' => 'settings.project-settings.index', 'description' => 'Projektwerte und Kataloge verwalten'],
-                ['label' => 'All Projects', 'route' => 'other.project-management', 'description' => 'Projekte über alle Companies steuern'],
-                ['label' => 'Tickets', 'route' => 'tickets.index', 'description' => 'Support-Tickets prüfen und bearbeiten'],
-                ['label' => 'Communication Hub', 'route' => 'communication.index', 'description' => 'Team-Chats der Companies überwachen'],
+                [
+                    'label' => 'User Management',
+                    'url' => Route::has('settings.user-management') ? route('settings.user-management') : '#',
+                    'description' => 'Benutzer erstellen, bearbeiten und löschen',
+                ],
+                [
+                    'label' => 'Project Settings',
+                    'url' => Route::has('settings.project-settings.index') ? route('settings.project-settings.index') : '#',
+                    'description' => 'Projektwerte und Kataloge verwalten',
+                ],
+                [
+                    'label' => 'All Projects',
+                    'url' => Route::has('other.project-management') ? route('other.project-management') : '#',
+                    'description' => 'Projekte über alle Companies steuern',
+                ],
+                [
+                    'label' => 'Tickets',
+                    'url' => Route::has('tickets.index') ? route('tickets.index') : '#',
+                    'description' => 'Support-Tickets prüfen und bearbeiten',
+                ],
+                [
+                    'label' => 'Communication Hub',
+                    'url' => Route::has('communication.index') ? route('communication.index') : '#',
+                    'description' => 'Team-Chats der Companies überwachen',
+                ],
             ],
-        ]);
+                    ]);
     }
 }
