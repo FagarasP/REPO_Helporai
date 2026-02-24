@@ -4,9 +4,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordChangeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
 
-Route::get('register', [App\Http\Controllers\RegisterController::class, 'register'])->name('register');
 Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index']);
 
 Route::get('/change-password', [PasswordChangeController::class, 'show'])->name('password.change');
